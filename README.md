@@ -10,7 +10,7 @@ Production-ready REST API with user authentication, built with Node.js, Express,
 - Zod Validation
 
 ## Features
-- [ ] User registration with email/password
+- [x] User registration with email/password
 - [ ] User login with JWT tokens
 - [ ] Token refresh mechanism
 - [ ] Password hashing with bcrypt
