@@ -8,7 +8,9 @@ import { loginSchema, registerSchema } from "../utils/validation";
 const router = Router();
 
 // Apply rate limiting middleware to auth routes
-router.use(authLimiter);
+if (process.env.NODE_ENV !== 'test') {
+  router.use(authLimiter);
+}
 
 // Registration route
 router.post("/register", validate(registerSchema), register);
