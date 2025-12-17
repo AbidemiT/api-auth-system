@@ -30,7 +30,9 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        # Pin to a concrete major that Prisma supports. Use 24.x to ensure
+        # the runner installs Node 24 which is compatible with @prisma/client v7.
+        node-version: '24.x'
         cache: 'yarn'
     
     - name: Install dependencies
