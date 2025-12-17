@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { registerSchema } from "../utils/validation";
+import { loginSchema, registerSchema } from "../utils/validation";
 import { prismaClient } from "../libs";
 
 import { JWT_SECRET } from "../config";
@@ -63,18 +63,86 @@ export const register = async (req: Request, res: Response) => {
 
   } catch (error: any) {
     if (error.name === 'ZodError') {
+      const { fieldErrors } = error.flatten();
       res.status(400).json({
         success: "false",
         message: "Invalid input data",
-        errors: error.errors,
+        errors: fieldErrors,
       });
     }
 
     // Handle other errors
-    console.error('Registration error:', error);
+
     res.status(500).json({
       success: "false",
       message: "Internal server error",
     });
   }
 };
+
+export const login = async (req: Request, res: Response) => {
+  try {
+    // validate input
+    const parsedData = loginSchema.parse(req.body);
+    const { email, password } = parsedData;
+
+    const user = await prismaClient.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        success: "false",
+        message: "Invalid email or password",
+      });
+    }
+
+    // compare passwords
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(400).json({
+        success: "false",
+        message: "Invalid email or password",
+      });
+    }
+
+    // generate JWT token
+    const token = jwt.sign(
+      { userId: user.id },
+      JWT_SECRET || "api_auth_system_secret",
+      { expiresIn: "7d" }
+    );
+
+    // Send response
+    return res.status(200).json({
+      success: "true",
+      message: "User logged in successfully",
+      data: {
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+        },
+      },
+    });
+
+  } catch (error: any) {
+    if (error.name === 'ZodError') {
+      const { fieldErrors } = error.flatten();
+
+      res.status(400).json({
+        success: "false",
+        message: "Invalid input data",
+        errors: fieldErrors,
+      });
+    }
+
+    // Handle other errors
+    res.status(500).json({
+      success: "false",
+      message: "Internal server error",
+    });
+  }
+}

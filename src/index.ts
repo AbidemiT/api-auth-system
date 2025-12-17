@@ -2,6 +2,7 @@ import { config } from 'dotenv';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import authRoutes from './routes/auth.routes';
+import userRoutes from './routes/user.routes';
 
 import { prismaClient } from './libs';
 
@@ -25,6 +26,7 @@ app.get('/health', (req: Request, res: Response) => {
 });
 
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/user', userRoutes);
 
 // 404 handler
 app.use((req: Request, res: Response) => {
