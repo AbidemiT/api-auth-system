@@ -31,10 +31,10 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-        cache: 'npm'
+        cache: 'yarn'
     
     - name: Install dependencies
-      run: npm ci
+      run: yarn install
     
     - name: Run Prisma migrations
       env:
@@ -46,7 +46,7 @@ jobs:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
         JWT_SECRET: test-secret-key
         NODE_ENV: test
-      run: npm test
+      run: yarn test:ci
     
     - name: Upload coverage
       uses: codecov/codecov-action@v3
