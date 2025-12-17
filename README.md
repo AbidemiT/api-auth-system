@@ -19,6 +19,17 @@ Production-ready REST API with user authentication, built with Node.js, Express,
 - [ ] Rate limiting
 - [ ] API documentation
 
+## Security Features
+
+- **Helmet**: Secure HTTP headers
+- **Rate Limiting**: 
+  - Auth endpoints: 5 requests per 15 minutes
+  - API endpoints: 100 requests per 15 minutes
+- **Input Validation**: Zod schemas for all inputs
+- **JWT Authentication**: Secure token-based auth
+- **Password Hashing**: bcrypt with salt rounds
+- **Error Handling**: Centralized error middleware
+
 ## Setup
 
 \`\`\`bash
