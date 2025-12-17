@@ -14,9 +14,9 @@ Production-ready REST API with user authentication, built with Node.js, Express,
 - [x] User login with JWT tokens
 - [ ] Token refresh mechanism
 - [x] Password hashing with bcrypt
-- [ ] Input validation
-- [ ] Error handling middleware
-- [ ] Rate limiting
+- [x] Input validation
+- [x] Error handling middleware
+- [x] Rate limiting
 - [ ] API documentation
 
 ## Security Features
