@@ -18,5 +18,11 @@ export const loginSchema = z.object({
   password: z.string().min(8, { message: 'Password must be at least 8 characters long' }),
 });
 
+// Add refresh token schema
+export const refreshTokenSchema = z.object({
+  refreshToken: z.string().min(1, { message: 'Refresh token is required' }),
+});
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
+export type RefreshTokenInput = z.infer<typeof refreshTokenSchema>;
