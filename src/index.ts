@@ -9,7 +9,7 @@ import { errorHandler } from './middleware/error.middleware';
 import { apiLimiter } from './middleware/rateLimiter.middleware';
 
 import { prismaClient } from './libs';
-import { NODE_ENV } from './config';
+import { NODE_ENV, PORT } from './config';
 
 if (process.env.NODE_ENV !== 'production') {
   config();
@@ -22,7 +22,6 @@ console.log('🔑 JWT_SECRET:', process.env.JWT_SECRET ? 'Set ✓' : 'Missing �
 
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 try {
 
@@ -75,7 +74,7 @@ try {
   console.log('🎧 Starting server on port', PORT);
 
   app.listen(PORT, async () => {
-    await prismaClient.$connect();
+    // await prismaClient.$connect();
     console.log(`🚀 Server is running on port ${PORT}`);
     console.log(`📝 Environment: ${NODE_ENV || 'development'}`);
     console.log(`✅ API is ready to accept requests`);
