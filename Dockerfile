@@ -2,20 +2,23 @@ FROM node:24-alpine
 
 WORKDIR /app
 
-# Copy package files
-COPY package.json yarn.lock ./
-
 # Install dependencies
+COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
-# Copy all files
+# Copy source
 COPY . .
 
 # Generate Prisma Client
 RUN npx prisma generate
 
-# Expose port
+# Compile TypeScript
+RUN yarn build
+
+# Verify build output
+RUN ls -la dist/
+
 EXPOSE 3000
 
-# Push schema and start
-CMD ["sh", "-c", "npx prisma db push --accept-data-loss --skip-generate && npx ts-node src/index.ts"]
+# Run compiled JavaScript
+CMD ["sh", "-c", "npx prisma db push --accept-data-loss --skip-generate && node dist/src/index.js"]
