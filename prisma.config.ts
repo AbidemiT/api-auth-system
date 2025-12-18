@@ -1,6 +1,8 @@
 import 'dotenv/config'
 import { defineConfig, env } from 'prisma/config'
 
+import { DATABASE_URL } from './src/config'
+
 export default defineConfig({
   // the main entry for your schema
   schema: 'prisma/schema.prisma',
@@ -14,6 +16,6 @@ export default defineConfig({
   datasource: {
     // Type Safe env() helper 
     // Does not replace the need for dotenv
-    url: env('DATABASE_URL'),
+    url: DATABASE_URL!,
   },
 })
