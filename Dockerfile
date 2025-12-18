@@ -6,19 +6,26 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
-# Copy source
+# Copy all source files
 COPY . .
 
 # Generate Prisma Client
 RUN npx prisma generate
 
-# Compile TypeScript
-RUN yarn build
-
-# Verify build output
-RUN ls -la dist/
+# Build TypeScript and show what was created
+RUN echo "🔨 Building TypeScript..." && \
+    yarn build && \
+    echo "📁 Build output:" && \
+    ls -la dist/ && \
+    echo "📁 dist/src contents:" && \
+    ls -la dist/src/ || echo "❌ dist/src does not exist"
 
 EXPOSE 3000
 
-# Run compiled JavaScript
-CMD ["sh", "-c", "npx prisma db push --accept-data-loss --skip-generate && node dist/src/index.js"]
+# Run with explicit path check
+CMD sh -c "npx prisma db push --accept-data-loss --skip-generate && \
+    echo '✅ Database synced' && \
+    echo '📂 Checking for compiled files...' && \
+    ls -la dist/src/ && \
+    echo '🚀 Starting application...' && \
+    node dist/src/index.js"
