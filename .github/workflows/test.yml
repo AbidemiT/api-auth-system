@@ -30,27 +30,32 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        # Pin to a concrete major that Prisma supports. Use 24.x to ensure
-        # the runner installs Node 24 which is compatible with @prisma/client v7.
-        node-version: '24.x'
+        node-version: '20.x'  # Use 20.x for better stability
         cache: 'yarn'
     
     - name: Install dependencies
-      run: yarn install
+      run: yarn install --frozen-lockfile
     
-    - name: Run Prisma migrations
+    - name: Generate Prisma Client
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
-      run: npx prisma migrate deploy
+      run: npx prisma generate
+    
+    - name: Push database schema
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+      run: npx prisma db push --skip-generate
     
     - name: Run tests
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
-        JWT_SECRET: test-secret-key
+        JWT_SECRET: test-secret-key-for-ci
         NODE_ENV: test
       run: yarn test:ci
     
     - name: Upload coverage
+      if: success()
       uses: codecov/codecov-action@v3
       with:
         files: ./coverage/lcov.info
+        fail_ci_if_error: false

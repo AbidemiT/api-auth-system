@@ -3,7 +3,6 @@ import { prismaClient } from "../src/libs";
 // Setup: run before all tests
 export const setTestDB = async () => {
   // clean databse before tests
-  await prismaClient.$connect();
   await prismaClient.user.deleteMany({});
 }
 
@@ -26,3 +25,8 @@ export const createTestUser = async (email = 'test@example.com') => {
     },
   });
 }
+
+// Clean up function for after each test
+export const cleanupTestDB = async () => {
+  await prismaClient.user.deleteMany({});
+};

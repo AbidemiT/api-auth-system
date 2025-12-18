@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../../src/config';
 
 import { createTestApp } from '../helpers/app';
-import { setTestDB, tearDownTestDB, createTestUser } from '../setup';
+import { setTestDB, tearDownTestDB, createTestUser, cleanupTestDB } from '../setup';
 
 const app = createTestApp();
 
@@ -21,7 +21,7 @@ describe('Auth Integration Tests', () => {
   });
 
   beforeEach(async () => {
-    await setTestDB();
+    await cleanupTestDB();
 
     // Create a test user before each test
     const user = await createTestUser('usertest@example.com');

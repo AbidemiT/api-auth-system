@@ -2,7 +2,7 @@
 
 import request from 'supertest';
 import { createTestApp } from '../helpers/app';
-import { setTestDB, tearDownTestDB, createTestUser } from '../setup';
+import { setTestDB, tearDownTestDB, createTestUser, cleanupTestDB } from '../setup';
 
 const app = createTestApp();
 
@@ -16,7 +16,7 @@ describe('Auth Integration Tests', () => {
   });
 
   beforeEach(async () => {
-    await setTestDB();
+    await cleanupTestDB();
   });
 
   describe('POST /api/v1/auth/register', () => {
