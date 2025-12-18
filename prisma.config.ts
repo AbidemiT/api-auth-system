@@ -1,5 +1,11 @@
-import 'dotenv/config'
+import { config } from 'dotenv'
 import { defineConfig, env } from 'prisma/config'
+
+// Load local .env during development only. In production the environment
+// variables should be provided by the host (CI/container/platform).
+if (process.env.NODE_ENV !== 'production') {
+  config();
+}
 
 import { DATABASE_URL } from './src/config'
 
