@@ -11,9 +11,11 @@ RUN yarn build
 
 EXPOSE 3000
 
-# Capture stderr and show it
 CMD sh -c "npx prisma db push --accept-data-loss --skip-generate && \
     echo '✅ Database synced' && \
+    echo '📄 Checking index.js exists...' && \
+    test -f dist/src/index.js && echo '✓ File exists' || echo '✗ File missing' && \
+    echo '📄 First 20 lines of index.js:' && \
+    head -20 dist/src/index.js && \
     echo '🚀 Starting application...' && \
-    node dist/src/index.js 2>&1 || \
-    (echo '❌ Application crashed with exit code:' $? && exit 1)"
+    node dist/src/index.js"
