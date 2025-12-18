@@ -1,6 +1,9 @@
 {
   "name": "api-auth-system",
   "version": "1.0.0",
+  "engines": {
+    "node": "20.x"
+  },
   "description": "api auth system",
   "main": "src/index.ts",
   "author": "abidemi",
