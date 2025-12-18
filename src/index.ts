@@ -11,7 +11,9 @@ import { apiLimiter } from './middleware/rateLimiter.middleware';
 import { prismaClient } from './libs';
 import { NODE_ENV } from './config';
 
-config();
+if (process.env.NODE_ENV !== 'production') {
+  config();
+}
 
 console.log('🔧 Starting application...');
 console.log('📝 NODE_ENV:', process.env.NODE_ENV);
