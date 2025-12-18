@@ -99,7 +99,7 @@ Tests run automatically on every push via GitHub Actions.
 ## Features
 - [x] User registration with email/password
 - [x] User login with JWT tokens
-- [ ] Token refresh mechanism
+- [x] Token refresh mechanism
 - [x] Password hashing with bcrypt
 - [x] Input validation
 - [x] Error handling middleware
