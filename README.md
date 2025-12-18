@@ -67,6 +67,15 @@ Done in 5.88s.
 - `POST /api/v1/auth/register` - Register new user
 - `POST /api/v1/auth/login` - Login user
 
+#### Refresh Token 
+- `POST /api/v1/auth/refresh-token`
+
+#### Logout
+- `POST /api/v1/auth/logout` - Invalidates the refresh token.
+
+#### Logout On All Devices
+- `POST /api/v1/auth/logout-all-devices` - Invalidates all refresh tokens for the user.
+
 ### User
 - `GET /api/v1/user/profile` - Get current user (protected)
 
