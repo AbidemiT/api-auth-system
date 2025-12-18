@@ -2,7 +2,7 @@
   "name": "api-auth-system",
   "version": "1.0.0",
   "engines": {
-    "node": "18.20.5"
+    "node": "20.19"
   },
   "description": "api auth system",
   "main": "src/index.ts",
