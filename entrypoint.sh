@@ -1,10 +1,11 @@
 #!/bin/sh
 
-echo "--- 1. Database Migration ---"
-# We use 'yarn prisma' to ensure we use the local version in node_modules
+echo "🛠️ Step 1: Checking Database Migrations..."
+# Run migrations
 yarn prisma migrate deploy
 
-echo "--- 2. Launching API ---"
-# We use 'exec' so Node becomes PID 1. 
-# This is the standard for Docker production.
+echo "✅ Step 2: Migrations finished. Attempting to start Node..."
+
+# Use 'exec' to replace the shell with the Node process. 
+# This ensures the container stays running.
 exec node dist/src/index.js

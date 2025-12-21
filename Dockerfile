@@ -1,22 +1,25 @@
 FROM node:20-alpine
+
 WORKDIR /app
 
+# Install dependencies
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
+# Copy everything and build
 COPY . .
 RUN npx prisma generate
 RUN yarn build
 
-# Clean up dev dependencies
+# Final production cleanup
 RUN yarn install --frozen-lockfile --production --ignore-scripts --prefer-offline
 
-# Make the entrypoint executable
+# Setup entrypoint
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Use 3001 to match your current dev setup
+# Align with your dev port
 EXPOSE 3001
 
-# Correct JSON format for the build-check
+# JSON format prevents the shell-wrapping issue
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
