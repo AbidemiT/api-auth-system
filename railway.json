@@ -2,7 +2,7 @@
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
     "builder": "DOCKERFILE",
-    "buildCommand": "yarn install && npx prisma generate",
+    "buildCommand": "yarn install && npx prisma generate && yarn build",
     "dockerfilePath": "/Dockerfile"
   },
   "deploy": {
