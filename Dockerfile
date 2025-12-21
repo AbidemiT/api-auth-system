@@ -8,7 +8,8 @@ COPY package.json yarn.lock ./
 
 # 2) Copy only files needed by install-time scripts (prisma generate reads
 #    the Prisma schema and prisma.config.ts which imports src/config).
-COPY prisma/schema.prisma prisma.config.ts ./
+COPY prisma ./prisma
+COPY prisma.config.ts ./
 COPY src/config ./src/config
 
 # Install dependencies (this runs postinstall -> prisma generate)
