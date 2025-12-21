@@ -1,5 +1,24 @@
-import { prismaClient } from "./src/libs/prismaClient";
-import { ResourceType } from "./prisma/generated/prisma/client";
+import { PrismaClient } from "../../prisma/generated/prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+
+import { Pool } from "pg";
+
+// Create connection pool
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
+// Create adapter
+const adapter = new PrismaPg(pool);
+
+// Create Prisma Client with adapter
+const prismaClient = new PrismaClient({
+  adapter,
+  log:
+    process.env.NODE_ENV === "development"
+      ? ["query", "error", "warn"]
+      : ["error"],
+});
 
 async function main() {
   console.log("🌱 Starting database seed...");
