@@ -15,11 +15,11 @@ RUN yarn build
 RUN yarn install --frozen-lockfile --production --ignore-scripts --prefer-offline
 
 # Setup entrypoint
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Align with your dev port
 EXPOSE 3001
 
 # JSON format prevents the shell-wrapping issue
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]

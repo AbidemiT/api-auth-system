@@ -1,11 +1,12 @@
 #!/bin/sh
 
-echo "🛠️ Step 1: Checking Database Migrations..."
-# Run migrations
+echo "🔍 Checking working directory..."
+pwd
+ls -R dist/src/index.js || echo "❌ ERROR: index.js NOT FOUND at dist/src/index.js"
+
+echo "🛠️ Step 1: Migrations..."
 yarn prisma migrate deploy
 
-echo "✅ Step 2: Migrations finished. Attempting to start Node..."
-
-# Use 'exec' to replace the shell with the Node process. 
-# This ensures the container stays running.
+echo "🚀 Step 2: Starting Server..."
+# Using 'exec' is vital for the JSONArgsRecommended rule
 exec node dist/src/index.js
