@@ -31,6 +31,16 @@ else
 	echo "Skipping migrations because RUN_MIGRATIONS != true"
 fi
 
+echo "🌱 Step 1.5: Database Seeding..."
+# Only seed if RUN_SEED is true (default false to prevent re-seeding)
+if [ "${RUN_SEED:-false}" = "true" ]; then
+	echo "Running: npx ts-node prisma/seed-resources.ts"
+	npx ts-node prisma/seed-resources.ts || echo "⚠️ Seed failed or already seeded"
+	echo "✅ Seed completed"
+else
+	echo "Skipping seed because RUN_SEED != true"
+fi
+
 echo "🚀 Step 2: Starting Server..."
 echo "Starting: node dist/src/index.js"
 # Run node directly so any errors are visible in logs. Capture exit code and
