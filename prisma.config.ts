@@ -16,6 +16,7 @@ export default defineConfig({
   // what script to run for "prisma db seed"
   migrations: {
     path: 'prisma/migrations',
+    seed: 'tsx prisma/seed-resources.ts',
   },
   // The database URL 
   datasource: {
