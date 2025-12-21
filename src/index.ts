@@ -77,10 +77,12 @@ try {
 
   console.log('🎧 Starting server on port', PORT);
 
-  app.listen(PORT, async () => {
-    // await prismaClient.$connect();
-    console.log(`🚀 Server is running on port ${PORT}`);
-    console.log(`📝 Environment: ${NODE_ENV || 'development'}`);
+  // Ensure PORT is cast to a number for the listener
+  const portNumber = Number(PORT);
+
+  app.listen(portNumber, '0.0.0.0', () => {
+    console.log(`🚀 Server is running on http://0.0.0.0:${portNumber}`);
+    console.log(`📝 Environment: ${NODE_ENV}`);
     console.log(`✅ API is ready to accept requests`);
   });
 } catch (error) {

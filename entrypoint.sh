@@ -1,5 +1,9 @@
 #!/bin/sh
 set -e
 
+echo "Checking migrations..."
 npx prisma migrate deploy
-exec node dist/src/index.js
+
+echo "Starting application with yarn..."
+# 'exec' ensures the Node process replaces the shell process
+exec yarn start
