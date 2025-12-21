@@ -32,11 +32,8 @@ fi
 
 echo "🌱 Step 1.5: Database Seeding..."
 if [ "${RUN_SEED:-false}" = "true" ]; then
-	echo "Checking if seed file exists..."
-	ls -la dist/src/seed.js || echo "⚠️ seed.js not found in dist/src"
-	
-	echo "Running compiled seed: node dist/src/seed.js"
-	node dist/src/seed.js || echo "⚠️ Seed failed or already seeded"
+	echo "Running seed script: node scripts/seed.js"
+	node scripts/seed.js || echo "⚠️ Seed failed or already seeded"
 	echo "✅ Seed step completed"
 else
 	echo "Skipping seed because RUN_SEED != true"
