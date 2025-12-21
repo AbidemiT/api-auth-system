@@ -16,7 +16,7 @@ RUN yarn install --frozen-lockfile --production=true
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-EXPOSE 3000
+EXPOSE 3001
 
 # Use the JSON (exec) form for the ENTRYPOINT
 ENTRYPOINT ["entrypoint.sh"]
