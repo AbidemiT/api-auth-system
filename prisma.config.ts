@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
   config();
 }
 
-import { DATABASE_URL } from './src/config'
+import { DATABASE_URL, DIRECT_URL } from './src/config'
 
 export default defineConfig({
   // the main entry for your schema
@@ -23,5 +23,6 @@ export default defineConfig({
     // Type Safe env() helper 
     // Does not replace the need for dotenv
     url: DATABASE_URL!,
+    directUrl: DIRECT_URL!,
   },
 })

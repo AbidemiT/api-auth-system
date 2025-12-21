@@ -9,7 +9,6 @@ ls -la dist/src || echo "❌ dist/src not found"
 ls -la dist/src/index.js || echo "❌ ERROR: index.js NOT FOUND at dist/src/index.js"
 
 echo "🛠️ Step 1: Migrations..."
-# Allow disabling migrations at runtime (e.g., if CI runs migrations separately)
 if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
 	echo "Running: yarn prisma migrate deploy (with retries)"
 	MAX_RETRIES=${MIGRATE_MAX_RETRIES:-12}
@@ -32,19 +31,19 @@ else
 fi
 
 echo "🌱 Step 1.5: Database Seeding..."
-# Only seed if RUN_SEED is true (default false to prevent re-seeding)
 if [ "${RUN_SEED:-false}" = "true" ]; then
-	echo "Running: npx ts-node prisma/seed-resources.ts"
-	npx ts-node prisma/seed-resources.ts || echo "⚠️ Seed failed or already seeded"
-	echo "✅ Seed completed"
+	echo "Checking if seed file exists..."
+	ls -la dist/src/seed.js || echo "⚠️ seed.js not found in dist/src"
+	
+	echo "Running compiled seed: node dist/src/seed.js"
+	node dist/src/seed.js || echo "⚠️ Seed failed or already seeded"
+	echo "✅ Seed step completed"
 else
 	echo "Skipping seed because RUN_SEED != true"
 fi
 
 echo "🚀 Step 2: Starting Server..."
 echo "Starting: node dist/src/index.js"
-# Run node directly so any errors are visible in logs. Capture exit code and
-# print it before exiting so the platform shows a clear failure reason.
 node dist/src/index.js
 EXIT_CODE=$?
 echo "node exited with code ${EXIT_CODE}"

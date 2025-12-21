@@ -83,7 +83,7 @@ try {
 
   // Connect to the database before starting the HTTP server so startup
   // failures are visible immediately in the logs and the platform can
-  // surface the error (Railway will show a non-zero exit code).
+  // surface the error (the host will show a non-zero exit code).
   (async () => {
     try {
       await prismaClient.$connect();
