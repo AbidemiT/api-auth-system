@@ -9,8 +9,14 @@ COPY . .
 RUN npx prisma generate
 RUN yarn build
 
+# Clean up dev dependencies
 RUN yarn install --frozen-lockfile --production=true
+
+# Copy the entrypoint script and make it executable
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 3000
 
-CMD npx prisma migrate deploy && node dist/src/index.js
+# Use the JSON (exec) form for the ENTRYPOINT
+ENTRYPOINT ["entrypoint.sh"]
