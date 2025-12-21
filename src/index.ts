@@ -8,8 +8,6 @@ import userRoutes from './routes/user.routes';
 import { errorHandler } from './middleware/error.middleware';
 import { apiLimiter } from './middleware/rateLimiter.middleware';
 
-import { prismaClient } from './libs';
-import { NODE_ENV, PORT } from './config';
 import bookingRoutes from './routes/booking.routes';
 import resourceRoutes from './routes/resource.routes';
 
@@ -17,11 +15,12 @@ if (process.env.NODE_ENV !== 'production') {
   config();
 }
 
-console.log('🔧 Starting application...');
-console.log('📝 NODE_ENV:', process.env.NODE_ENV);
-console.log('🔌 DATABASE_URL:', process.env.DATABASE_URL ? 'Set ✓' : 'Missing ✗');
-console.log('🔑 JWT_SECRET:', process.env.JWT_SECRET ? 'Set ✓' : 'Missing ✗');
+import { NODE_ENV, DATABASE_URL, JWT_SECRET, PORT } from './config';
 
+console.log('🔧 Starting application...');
+console.log('📝 NODE_ENV:', NODE_ENV);
+console.log('🔌 DATABASE_URL:', DATABASE_URL ? 'Set ✓' : 'Missing ✗');
+console.log('🔑 JWT_SECRET:', JWT_SECRET ? 'Set ✓' : 'Missing ✗');
 
 const app = express();
 
