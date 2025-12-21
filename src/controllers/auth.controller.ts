@@ -1,10 +1,8 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { loginSchema, registerSchema } from "../utils/validation";
 import { prismaClient } from "../libs";
 
-import { JWT_SECRET } from "../config";
 import { asyncHandler, AppError } from "../middleware/error.middleware";
 
 import {
