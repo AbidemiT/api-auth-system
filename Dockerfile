@@ -12,10 +12,8 @@ RUN yarn build
 # Clean up dev deps BUT keep prisma if it's in dependencies
 RUN yarn install --frozen-lockfile --production --ignore-scripts --prefer-offline
 
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-EXPOSE 3001
-
-# Recommended JSON format
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+# This is the "JSON Args" form recommended by Docker
+ENTRYPOINT ["entrypoint.sh"]

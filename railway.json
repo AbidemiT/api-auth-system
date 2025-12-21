@@ -3,9 +3,5 @@
   "build": {
     "builder": "DOCKERFILE",
     "dockerfilePath": "Dockerfile"
-  },
-  "deploy": {
-    "runtime": "V2",
-    "restartPolicyType": "ON_FAILURE"
   }
 }
