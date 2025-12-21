@@ -10,6 +10,8 @@ import { apiLimiter } from './middleware/rateLimiter.middleware';
 
 import { prismaClient } from './libs';
 import { NODE_ENV, PORT } from './config';
+import bookingRoutes from './routes/booking.routes';
+import resourceRoutes from './routes/resource.routes';
 
 if (process.env.NODE_ENV !== 'production') {
   config();
@@ -59,6 +61,8 @@ try {
 
   app.use('/api/v1/auth', authRoutes);
   app.use('/api/v1/user', userRoutes);
+  app.use('/api/v1/bookings', bookingRoutes);
+  app.use('/api/v1/resources', resourceRoutes);
 
   // 404 handler
   app.use((req: Request, res: Response) => {
