@@ -19,11 +19,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 import { NODE_ENV, DATABASE_URL, JWT_SECRET, PORT } from './config';
 
-console.log('🔧 Starting application...');
-console.log('📝 NODE_ENV:', NODE_ENV);
-console.log('🔌 DATABASE_URL:', DATABASE_URL ? 'Set ✓' : 'Missing ✗');
-console.log('🔑 JWT_SECRET:', JWT_SECRET ? 'Set ✓' : 'Missing ✗');
-
 const app = express();
 
 try {
@@ -32,7 +27,15 @@ try {
 
   // Middleware to parse JSON bodies
   app.use(helmet());
-  app.use(cors());
+  app.use(cors({
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'https://abit-hub-frontend.vercel.app/',
+      'https://*.vercel.app'
+    ],
+    credentials: true,
+  }));
 
   // Logging middleware
   if (NODE_ENV === "development") {
