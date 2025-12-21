@@ -8,6 +8,8 @@
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
     "build": "tsc",
+    "postinstall": "prisma generate",
+    "heroku-postbuild": "yarn build",
     "start": "node dist/src/index.js",
     "test": "NODE_ENV=test jest --coverage",
     "test:ci": "NODE_ENV=test jest --runInBand --coverage",
