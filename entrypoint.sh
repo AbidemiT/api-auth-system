@@ -1,9 +1,11 @@
 #!/bin/sh
-set -e
 
-echo "Checking migrations..."
-npx prisma migrate deploy
+echo "🚀 Starting Entrypoint Script..."
 
-echo "Starting application with yarn..."
-# 'exec' ensures the Node process replaces the shell process
-exec yarn start
+# Check if database is ready and run migrations
+echo "🔄 Running database migrations..."
+yarn prisma migrate deploy
+
+# Hand off to the main application
+echo "⭐ Starting API Server..."
+exec node dist/src/index.js
