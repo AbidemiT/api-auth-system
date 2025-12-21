@@ -32,8 +32,8 @@ fi
 
 echo "🌱 Step 1.5: Database Seeding..."
 if [ "${RUN_SEED:-false}" = "true" ]; then
-	echo "Running seed script: node scripts/seed.js"
-	node scripts/seed.js || echo "⚠️ Seed failed or already seeded"
+	echo "Running Prisma seed: yarn prisma db seed"
+	yarn prisma db seed || echo "⚠️ Seed failed or already seeded"
 	echo "✅ Seed step completed"
 else
 	echo "Skipping seed because RUN_SEED != true"
