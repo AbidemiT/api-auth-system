@@ -1,11 +1,9 @@
 #!/bin/sh
+set -e
 
-echo "🚀 Starting Entrypoint Script..."
-
-# Check if database is ready and run migrations
-echo "🔄 Running database migrations..."
+echo "--- Running Migrations ---"
 yarn prisma migrate deploy
 
-# Hand off to the main application
-echo "⭐ Starting API Server..."
+echo "--- Starting Node Server ---"
+# This ensures the app is PID 1 and stays running
 exec node dist/src/index.js
