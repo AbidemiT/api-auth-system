@@ -31,7 +31,7 @@ try {
     origin: [
       'http://localhost:3000',
       'http://localhost:3001',
-      'https://abit-hub-frontend.vercel.app/',
+      'https://abit-hub-frontend.vercel.app',
       'https://*.vercel.app'
     ],
     credentials: true,
