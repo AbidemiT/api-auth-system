@@ -9,6 +9,7 @@ import { errorHandler } from './middleware/error.middleware';
 import { apiLimiter } from './middleware/rateLimiter.middleware';
 
 import { prismaClient } from './libs';
+import { initSentry, Sentry } from './libs/sentry';
 
 import bookingRoutes from './routes/booking.routes';
 import resourceRoutes from './routes/resource.routes';
@@ -18,6 +19,9 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 import { NODE_ENV, DATABASE_URL, JWT_SECRET, PORT } from './config';
+
+// Initiate Sentry first
+initSentry();
 
 const app = express();
 
@@ -75,6 +79,9 @@ app.use((req: Request, res: Response) => {
   });
 });
 
+// Sentry error handler
+Sentry.setupExpressErrorHandler(app);
+
 // Error handling middleware (should be the last middleware)
 app.use(errorHandler);
 
@@ -110,12 +117,17 @@ const portNumber = Number(PORT);
         console.log('🛑 HTTP server closed (no new connections accepted)');
 
         try {
+          // Close Sentry
+          console.log('🛑 Closing Sentry...');
+          await Sentry.close(2000); // Wait up to 2 seconds
+
           // close database connection
           await prismaClient.$disconnect();
           console.log('🛑 Database connection closed');
           process.exit(0);
         } catch (error) {
           console.error('❌ Error during shutdown:', error);
+          Sentry.captureException(error); // Log to Sentry
           process.exit(1);
         }
       });
@@ -136,6 +148,9 @@ const portNumber = Number(PORT);
       console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
       // Application specific logging, throwing an error, or other logic here
 
+      // Send to Sentry
+      Sentry.captureException(reason);
+
       shutdown('unhandledRejection');
     });
 
@@ -146,6 +161,7 @@ const portNumber = Number(PORT);
       console.error('❌ Stack trace:', error.stack);
 
       // Application specific logging, throwing an error, or other logic here
+      Sentry.captureException(error);
 
       shutdown('uncaughtException');
     });

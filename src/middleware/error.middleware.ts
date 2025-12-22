@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { ZodError } from "zod";
+import { Sentry } from "../libs/sentry";
 
 import { NODE_ENV } from "../config";
 
@@ -23,6 +24,19 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  // Send to Sentry (already handled by Sentry.Handlers.errorHandler, but this adds context)
+  Sentry.captureException(err, {
+    tags: {
+      route: req.path,
+      method: req.method,
+    },
+    extra: {
+      body: req.body,
+      query: req.query,
+      params: req.params,
+    },
+  });
+
   // Default error
   let statusCode = 500;
   let message = "Internal Server Error";
