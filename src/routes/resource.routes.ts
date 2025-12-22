@@ -107,4 +107,10 @@ router.get("/:id/availability", asyncHandler(async (req, res) => {
   });
 }));
 
+// For test: remove later
+router.get('/test-sentry', (req, res) => {
+  throw new Error('Sentry Backend Test');
+});
+
+
 export default router;
